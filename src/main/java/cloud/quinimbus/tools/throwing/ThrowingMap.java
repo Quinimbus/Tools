@@ -1,5 +1,6 @@
 package cloud.quinimbus.tools.throwing;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import name.falgout.jeffrey.throwing.ThrowingBiFunction;
@@ -15,6 +16,10 @@ public class ThrowingMap<K, V, T extends Throwable> {
 
     public static <K, V, T extends Throwable> ThrowingMap<K, V, T> of(Map<K, V> delegate, Class<T> throwable) {
         return new ThrowingMap<>(delegate, throwable);
+    }
+
+    public static <K, V, T extends Throwable> ThrowingMap<K, V, T> empty(Class<T> throwable) {
+        return new ThrowingMap<>(new LinkedHashMap<>(), throwable);
     }
 
     public V get(K key) {
