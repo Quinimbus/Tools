@@ -1,6 +1,6 @@
 package cloud.quinimbus.tools.stream;
 
-import static cloud.quinimbus.tools.stream.QCollectors.oneOrNone;
+import static cloud.quinimbus.tools.stream.QCollectors.*;
 import java.util.Optional;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
@@ -16,5 +16,18 @@ public class QCollectorsTest {
                 assertThrows(
                         IllegalStateException.class,
                         () -> Stream.of(1, 2).collect(oneOrNone())).getMessage());
+    }
+    
+    @Test
+    public void testExactlyOne() {
+        assertEquals("The stream contains no value",
+                assertThrows(
+                        IllegalStateException.class,
+                        () -> Stream.empty().collect(exactlyOne())).getMessage());
+        assertEquals(1, Stream.of(1).collect(exactlyOne()));
+        assertEquals("The stream contains more than one value",
+                assertThrows(
+                        IllegalStateException.class,
+                        () -> Stream.of(1, 2).collect(exactlyOne())).getMessage());
     }
 }
