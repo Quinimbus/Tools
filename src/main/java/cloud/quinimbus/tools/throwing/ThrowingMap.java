@@ -25,11 +25,11 @@ public class ThrowingMap<K, V, T extends Throwable> {
     public V get(K key) {
         return this.delegate.get(key);
     }
-    
+
     public V put(K key, V value) {
         return this.delegate.put(key, value);
     }
-    
+
     public V compute(K key, ThrowingBiFunction<? super K, ? super V, ? extends V, T> remappingFunction) throws T {
         Objects.requireNonNull(remappingFunction);
         V oldValue = get(key);
@@ -62,7 +62,8 @@ public class ThrowingMap<K, V, T extends Throwable> {
         return v;
     }
 
-    public V computeIfPresent(K key, ThrowingBiFunction<? super K, ? super V, ? extends V, T> remappingFunction) throws T {
+    public V computeIfPresent(K key, ThrowingBiFunction<? super K, ? super V, ? extends V, T> remappingFunction)
+            throws T {
         Objects.requireNonNull(remappingFunction);
         V oldValue;
         if ((oldValue = get(key)) != null) {

@@ -59,11 +59,15 @@ public final class ThrowingOptional<T, X extends Throwable> {
         return value == null ? (ThrowingOptional<T, X>) EMPTY : new ThrowingOptional<>(value, expectedThrowableClass);
     }
 
-    public static <T, X extends Throwable> ThrowingOptional<T, X> ofOptional(Optional<T> value, Class<X> expectedThrowableClass) {
-        return value.isPresent() ? new ThrowingOptional<>(value.get(), expectedThrowableClass) : (ThrowingOptional<T, X>) EMPTY;
+    public static <T, X extends Throwable> ThrowingOptional<T, X> ofOptional(
+            Optional<T> value, Class<X> expectedThrowableClass) {
+        return value.isPresent()
+                ? new ThrowingOptional<>(value.get(), expectedThrowableClass)
+                : (ThrowingOptional<T, X>) EMPTY;
     }
 
-    public static <T, X extends Throwable> ThrowingOptional<T, X> ofThrowable(Class<T> expectedValueClass, X throwable) {
+    public static <T, X extends Throwable> ThrowingOptional<T, X> ofThrowable(
+            Class<T> expectedValueClass, X throwable) {
         return new ThrowingOptional<>(Objects.requireNonNull(throwable), expectedValueClass);
     }
 
@@ -91,7 +95,8 @@ public final class ThrowingOptional<T, X extends Throwable> {
         }
     }
 
-    public void ifPresentOrElse(ThrowingConsumer<? super T, ? extends X> action, ThrowingRunnable<? extends X> emptyAction) throws X {
+    public void ifPresentOrElse(
+            ThrowingConsumer<? super T, ? extends X> action, ThrowingRunnable<? extends X> emptyAction) throws X {
         if (this.value != null) {
             action.accept(this.value);
         } else {
@@ -117,7 +122,9 @@ public final class ThrowingOptional<T, X extends Throwable> {
         }
     }
 
-    public <U> ThrowingOptional<U, X> flatMap(ThrowingFunction<? super T, ? extends ThrowingOptional<? extends U, ? extends X>, ? extends X> mapper) throws X {
+    public <U> ThrowingOptional<U, X> flatMap(
+            ThrowingFunction<? super T, ? extends ThrowingOptional<? extends U, ? extends X>, ? extends X> mapper)
+            throws X {
         Objects.requireNonNull(mapper);
         if (!this.isPresent()) {
             return empty();
@@ -128,7 +135,8 @@ public final class ThrowingOptional<T, X extends Throwable> {
         }
     }
 
-    public <U> ThrowingOptional<U, X> flatMapOptional(ThrowingFunction<? super T, ? extends Optional<? extends U>, ? extends X> mapper) throws X {
+    public <U> ThrowingOptional<U, X> flatMapOptional(
+            ThrowingFunction<? super T, ? extends Optional<? extends U>, ? extends X> mapper) throws X {
         Objects.requireNonNull(mapper);
         if (!this.isPresent()) {
             return empty();
@@ -139,7 +147,8 @@ public final class ThrowingOptional<T, X extends Throwable> {
         }
     }
 
-    public ThrowingOptional<T, X> or(ThrowingSupplier<? extends ThrowingOptional<? extends T, ? extends X>, ? extends X> supplier) {
+    public ThrowingOptional<T, X> or(
+            ThrowingSupplier<? extends ThrowingOptional<? extends T, ? extends X>, ? extends X> supplier) {
         Objects.requireNonNull(supplier);
         if (this.isPresent()) {
             return this;
@@ -204,12 +213,10 @@ public final class ThrowingOptional<T, X extends Throwable> {
     @Override
     public String toString() {
         return this.throwable != null
-                ? String.format("ThrowingOptional[%s]", this.throwable.getClass().getName())
-                : this.value != null
-                        ? String.format("ThrowingOptional[%s]", this.value)
-                        : "ThrowingOptional.empty";
+                ? "ThrowingOptional[%s]".formatted(this.throwable.getClass().getName())
+                : this.value != null ? String.format("ThrowingOptional[%s]", this.value) : "ThrowingOptional.empty";
     }
-    
+
     public Optional<T> toOptional() throws X {
         if (this.throwable != null) {
             throw this.throwable;
