@@ -1,5 +1,7 @@
 package cloud.quinimbus.tools.throwing;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import name.falgout.jeffrey.throwing.ThrowingFunction;
 import org.junit.jupiter.api.Test;
 
@@ -20,6 +22,9 @@ public class ThrowingOptionalTest {
 
     @Test
     public void testMapException() throws CheckedNumberFormatException {
-        ThrowingOptional.of("1", CheckedNumberFormatException.class).map(PARSE).get();
+        assertThrows(
+                CheckedNumberFormatException.class, () -> ThrowingOptional.of("A", CheckedNumberFormatException.class)
+                        .map(PARSE)
+                        .get());
     }
 }
