@@ -1,10 +1,11 @@
 package cloud.quinimbus.tools.function;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import cloud.quinimbus.tools.lang.TypeRef;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class LazySingletonSupplierTest {
 
