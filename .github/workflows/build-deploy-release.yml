@@ -36,6 +36,6 @@ jobs:
           mvn -DskipTests deploy
       - name: Create Release
         if:  ${{ !endsWith(steps.project.outputs.version, '-SNAPSHOT') }}
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: target/*.jar
